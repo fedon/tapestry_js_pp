@@ -1,0 +1,15 @@
+<html t:type="layout" title="Mini Assigment 1"
+      t:sidebarTitle="Framework Version"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+
+    <t:zone t:id="zone">
+        <form t:type="form" t:id="searchForm" t:zone="zone" xml:space="preserve" >
+            <t:textfield t:id="searchName" t:mixins="autocomplete" size="20"/>
+              . .
+            <input type="submit" value="Search" class="sB"/>
+        </form>
+        <t:grid t:source="employees" t:rowCclass="trClass"/>
+    </t:zone>
+    
+</html>
