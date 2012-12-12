@@ -20,7 +20,7 @@ import fedon.test.model.Employee;
  *
  */
 public class MiniAss {
-    Logger log = LoggerFactory.getLogger(EmployeeDao.class);
+    Logger log = LoggerFactory.getLogger(MiniAss.class);
 
     @Inject
     EmployeeDao empDao;
