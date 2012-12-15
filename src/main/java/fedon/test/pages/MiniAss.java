@@ -48,6 +48,6 @@ public class MiniAss {
     Object onSuccess() {
         employees = empDao.listByName(searchName);
         searchName = null;
-        return zone.getBody();
+        return zone;
     }
 }

@@ -3,11 +3,25 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
       xmlns:p="tapestry:parameter">
 
-    <t:zone t:id="zone">
+    <div t:type="jszone" t:id="zone">
         <form t:type="form" t:id="treeForm" t:zone="zone" xml:space="preserve" >
             <!-- <t:textfield t:id="searchName" t:mixins="autocomplete" size="20"/>
               . . -->
-            <input type="submit" value="Init"/>
+            New node name: &nbsp;<t:textfield t:id="newNodeName" size="20"/>
+            New node band: <t:textfield t:id="newDataBand" size="20"/>
+              <br/>
+            New node relation: <t:textfield t:id="newDataRelation" size="20"/>
+            Parent node: <t:select t:id="parentList" value="parentId" model="ParentSelectModel"/>
+              <br/>
+            &nbsp;
+            [
+            <t:actionlink t:id="demo" zone="^">Static (data) Demo Tree</t:actionlink>
+            ]
+            &nbsp;
+            [
+            <t:actionlink t:id="init" zone="^">Init Tree</t:actionlink>
+            ]
+            <input type="submit" value="Add"/>
         </form>
         <div id="container">
             
@@ -44,6 +58,6 @@
         <div  id="log"></div>
         </div>
         
-    </t:zone>
+    </div>
     
 </html>

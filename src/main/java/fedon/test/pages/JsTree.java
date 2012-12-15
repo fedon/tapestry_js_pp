@@ -1,17 +1,19 @@
 package fedon.test.pages;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
-import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
-import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fedon.test.components.JsZone;
 import fedon.test.dao.TreeDao;
+import fedon.test.model.TreeNode;
 
 /**
  * @author Dmytro Fedonin
@@ -24,18 +26,43 @@ public class JsTree {
     @Inject
     TreeDao treeDao;
     @InjectComponent
-    private Zone zone;
-    @Inject
-    private JavaScriptSupport javaScriptSupport;
+    private JsZone zone;
+    @Property
+    private Integer parentId;
+    @Property
+    Map<Integer, TreeNode> parentSelectModel = Collections.emptyMap();
+    // private SelectModel parentSelectModel;
+    @Property
+    private String newNodeName;
+    @Property
+    private String newDataBand;
+    @Property
+    private String newDataRelation;
 
-    // private String tree;
-
-    Object onSuccess() {
-        return zone.getBody();
+    Object onActionFromDemo() throws IOException {
+        zone.setJs(String.format("init(%s);", treeDao.getStaticTree()));
+        return zone;
     }
 
-    @AfterRender
-    public void afterRender() throws IOException {
-        javaScriptSupport.addScript("init(%s);", treeDao.getStaticTree());
+    Object onActionFromInit() {
+        treeDao.initTree();
+        parentSelectModel = treeDao.getNodeModel();
+        log.debug("--- select model size: " + parentSelectModel.size());
+        zone.setJs(String.format("init(%s);", treeDao.getDynamicTree()));
+        return zone;
+    }
+
+    Object onSuccess() {
+        TreeNode newNode = new TreeNode();
+        newNode.setName(newNodeName);
+        newNode.setData(newNode.new Data());
+        newNode.getData().setBand(newDataBand);
+        newNode.getData().setRelation(newDataRelation);
+
+        treeDao.addNode(parentId, newNode);
+        parentSelectModel = treeDao.getNodeModel();
+        log.debug("--- select model size: " + parentSelectModel.size());
+        zone.setJs(String.format("init(%s);", treeDao.getDynamicTree()));
+        return zone;
     }
 }
