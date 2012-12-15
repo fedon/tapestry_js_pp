@@ -47,7 +47,6 @@ public class JsTree {
     Object onActionFromInit() {
         treeDao.initTree();
         parentSelectModel = treeDao.getNodeModel();
-        log.debug("--- select model size: " + parentSelectModel.size());
         zone.setJs(String.format("init(%s);", treeDao.getDynamicTree()));
         return zone;
     }
@@ -61,8 +60,8 @@ public class JsTree {
 
         treeDao.addNode(parentId, newNode);
         parentSelectModel = treeDao.getNodeModel();
-        log.debug("--- select model size: " + parentSelectModel.size());
-        zone.setJs(String.format("init(%s);", treeDao.getDynamicTree()));
+        String json = treeDao.getDynamicTree();
+        zone.setJs(String.format("init(%s);", json));
         return zone;
     }
 }

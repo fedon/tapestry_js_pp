@@ -24,6 +24,14 @@ var Log = {
     this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
   }
 };
+function getSelectByIdPrefix(selectorTag, prefix) {
+    var selects = document.getElementsByTagName(selectorTag);
+    for (var i = 0; i < selects.length; i++) {
+        //omitting undefined null check for brevity
+        if (selects[i].id.indexOf(prefix) === 0)
+            return selects[i];
+    }
+}
 
 
 function init(json){
@@ -104,6 +112,12 @@ function init(json){
           });
           html += "</ul>";
           $jit.id('inner-details').innerHTML = html;
+          var parentSelect = document.getElementById('parentList');
+          if (parentSelect == null) {
+        	  parentSelect =  getSelectByIdPrefix('select', 'parentList');
+          }
+          if (parentSelect != null)
+              parentSelect.value = node.id;
       }
     });
     //load JSON data.
