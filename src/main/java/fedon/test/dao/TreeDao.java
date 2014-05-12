@@ -31,6 +31,7 @@ public class TreeDao {
     private int idCount = 0;
 
     public String getStaticTree() throws IOException {
+        // FIXME not safe
         if (tree == null) {
             InputStream in = this.getClass().getClassLoader().getResourceAsStream("static_tree.json");
             StringBuilder sb = new StringBuilder();
